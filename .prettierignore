@@ -1,0 +1,11 @@
+# Ignore artifacts:
+build
+dist
+.vite
+
+# Ignore dependencies:
+node_modules
+package-lock.json
+
+# Ignore git
+.git
