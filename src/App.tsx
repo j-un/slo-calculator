@@ -25,7 +25,7 @@ function App() {
         </div>
         <footer className="mt-8 text-center text-sm text-gray-400 underline">
           <a
-            href="https://github.com/j-un/slocalc"
+            href="https://github.com/j-un/slo-calculator"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-gray-600"
