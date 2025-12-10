@@ -13,7 +13,7 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json-summary', 'html', 'clover', 'json'],
-      reportsDirectory: '../coverage', // Use 'reportsDirectory' instead of 'dir'
+      reportsDirectory: './coverage', // Use 'reportsDirectory' instead of 'dir'
     },
   },
 } as UserConfig);
