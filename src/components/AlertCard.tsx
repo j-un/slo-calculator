@@ -135,17 +135,17 @@ const AlertCard = ({
                   {calculateTimeToExhaustion(windowDays, result.burnRate)}
                 </span>
               </div>
+              <p className="mt-1 text-[10px] text-gray-400">
+                Percentage of total error budget consumed if this burn rate
+                persists for {alert.longWindowValue}
+                {alert.longWindowUnit[0]}.
+              </p>
               <div className="h-2 w-full rounded-full bg-gray-200">
                 <div
                   className={`h-2 rounded-full ${alert.budgetConsumed > 50 ? 'bg-red-500' : 'bg-indigo-500'}`}
                   style={{ width: `${Math.min(alert.budgetConsumed, 100)}%` }}
                 ></div>
               </div>
-              <p className="mt-1 text-[10px] text-gray-400">
-                Percentage of total error budget consumed if this burn rate
-                persists for {alert.longWindowValue}
-                {alert.longWindowUnit[0]}.
-              </p>
             </div>
 
             <div className="mt-2 grid grid-cols-2 gap-4">
