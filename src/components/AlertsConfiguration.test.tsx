@@ -116,6 +116,7 @@ describe('AlertsConfiguration', () => {
         alert: mockAlerts[0],
         result: mockAlertResults.p1,
         updateAlert: mockUpdateAlert,
+        windowDays: 30, // Verify windowDays is passed
       }),
       undefined // Expect undefined for the second argument (context)
     );
@@ -126,6 +127,7 @@ describe('AlertsConfiguration', () => {
         alert: mockAlerts[1],
         result: mockAlertResults.t1,
         updateAlert: mockUpdateAlert,
+        windowDays: 30, // Verify windowDays is passed
       }),
       undefined // Expect undefined for the second argument (context)
     );

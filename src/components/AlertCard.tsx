@@ -1,14 +1,24 @@
 import type { AlertConfig } from '../utils/calculations';
-import { formatNumber, formatPercentage } from '../utils/calculations';
+import {
+  formatNumber,
+  formatPercentage,
+  calculateTimeToExhaustion,
+} from '../utils/calculations';
 import type { ExtendedAlertResult } from '../hooks/useAlerts';
 
 interface AlertCardProps {
   alert: AlertConfig;
   result: ExtendedAlertResult;
   updateAlert: (id: string, field: keyof AlertConfig, value: any) => void;
+  windowDays: number;
 }
 
-const AlertCard = ({ alert, result, updateAlert }: AlertCardProps) => {
+const AlertCard = ({
+  alert,
+  result,
+  updateAlert,
+  windowDays,
+}: AlertCardProps) => {
   const { shortWindow } = result;
 
   return (
@@ -117,6 +127,12 @@ const AlertCard = ({ alert, result, updateAlert }: AlertCardProps) => {
                 <span className="text-gray-600">Burn Rate:</span>
                 <span className="font-bold">
                   {formatNumber(result.burnRate, 1)}
+                </span>
+              </div>
+              <div className="mb-1 flex justify-between text-sm">
+                <span className="text-gray-600">Time to Exhaustion:</span>
+                <span className="font-bold text-gray-800">
+                  {calculateTimeToExhaustion(windowDays, result.burnRate)}
                 </span>
               </div>
               <div className="h-2 w-full rounded-full bg-gray-200">

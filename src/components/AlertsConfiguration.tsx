@@ -3,7 +3,7 @@ import AlertCard from './AlertCard';
 import { useSloContext } from '../contexts/SloProvider';
 
 const AlertsConfiguration = () => {
-  const { alerts, alertResults, updateAlert } = useSloContext();
+  const { alerts, alertResults, updateAlert, windowDays } = useSloContext();
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -32,6 +32,7 @@ const AlertsConfiguration = () => {
               alert={alert}
               result={result}
               updateAlert={updateAlert}
+              windowDays={windowDays}
             />
           );
         })}
