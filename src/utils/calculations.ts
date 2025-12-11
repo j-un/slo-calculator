@@ -132,3 +132,31 @@ export const formatPercentage = (num: number, decimals = 3) => {
     '%'
   );
 };
+
+export const calculateTimeToExhaustion = (
+  windowDays: number,
+  burnRate: number
+): string => {
+  if (burnRate <= 0) {
+    return 'Infinite';
+  }
+
+  const tteDays = windowDays / burnRate;
+  const tteMinutes = tteDays * 24 * 60;
+
+  if (tteMinutes < 60) {
+    const mins = Math.floor(tteMinutes);
+    return `${mins} minute${mins !== 1 ? 's' : ''}`;
+  }
+
+  const tteHours = tteDays * 24;
+  if (tteHours < 24) {
+    const hours = Math.floor(tteHours);
+    const mins = Math.floor(tteMinutes % 60);
+    return `${hours}h ${mins}m`;
+  }
+
+  const days = Math.floor(tteDays);
+  const hours = Math.floor(tteHours % 24);
+  return `${days}d ${hours}h`;
+};

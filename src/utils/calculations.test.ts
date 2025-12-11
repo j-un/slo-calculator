@@ -9,6 +9,7 @@ import {
   calculateBurnRateAlert,
   formatNumber,
   formatPercentage,
+  calculateTimeToExhaustion,
 } from './calculations';
 
 describe('calculations.ts', () => {
@@ -188,6 +189,49 @@ describe('calculations.ts', () => {
     it('should handle very small numbers with exponential notation', () => {
       expect(formatPercentage(0.0000001)).toBe('1.00e-7%'); // Corrected
       expect(formatPercentage(0.0000000123)).toBe('1.23e-8%'); // Corrected
+    });
+  });
+
+  describe('calculateTimeToExhaustion', () => {
+    // 30 day window
+    const windowDays = 30;
+
+    it('should return Infinite for 0 burn rate', () => {
+      expect(calculateTimeToExhaustion(windowDays, 0)).toBe('Infinite');
+    });
+
+    it('should return correct days for burn rate 1', () => {
+      // 30 / 1 = 30 days
+      expect(calculateTimeToExhaustion(windowDays, 1)).toBe('30d 0h');
+    });
+
+    it('should return correct days and hours for burn rate 2', () => {
+      // 30 / 2 = 15 days
+      expect(calculateTimeToExhaustion(windowDays, 2)).toBe('15d 0h');
+    });
+
+    it('should return correct hours for high burn rate', () => {
+      // Burn rate 30 -> 1 day
+      expect(calculateTimeToExhaustion(windowDays, 30)).toBe('1d 0h');
+      // Burn rate 60 -> 0.5 days = 12 hours
+      expect(calculateTimeToExhaustion(windowDays, 60)).toBe('12h 0m');
+    });
+
+    it('should return correct minutes for very high burn rate', () => {
+      // Burn rate 1440 (minutes in a day) * 30 -> 1 minute?
+      // windowDays = 30
+      // burnRate = 43200 (minutes in 30 days)
+      // TTE = 30 / 43200 days = 1/1440 days = 1 minute
+      expect(calculateTimeToExhaustion(windowDays, 30 * 24 * 60)).toBe(
+        '1 minute'
+      );
+    });
+
+    it('should format minutes correctly (plural vs singular)', () => {
+      // 2 minutes
+      expect(calculateTimeToExhaustion(windowDays, 30 * 24 * 30)).toBe(
+        '2 minutes'
+      );
     });
   });
 });
