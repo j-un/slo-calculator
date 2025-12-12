@@ -140,15 +140,39 @@ const AlertCard = ({
                 persists for {alert.longWindowValue}
                 {alert.longWindowUnit[0]}.
               </p>
-              <div className="h-2 w-full rounded-full bg-gray-200">
+              <div className="relative h-2 w-full rounded-full bg-gray-200">
                 <div
                   className={`h-2 rounded-full ${alert.budgetConsumed > 50 ? 'bg-red-500' : 'bg-indigo-500'}`}
                   style={{ width: `${Math.min(alert.budgetConsumed, 100)}%` }}
                 ></div>
+                {/* Scale line per 10% */}
+                {[...Array(9)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="absolute top-0 h-full w-px bg-gray-300"
+                    style={{ left: `${(i + 1) * 10}%` }}
+                  ></div>
+                ))}
+                {/* Label */}
+                <div className="absolute top-2 left-0 text-[8px] text-gray-400">
+                  0%
+                </div>
+                <div className="absolute top-2 left-1/4 -translate-x-1/2 text-[8px] text-gray-400">
+                  25%
+                </div>
+                <div className="absolute top-2 left-1/2 -translate-x-1/2 text-[8px] text-gray-400">
+                  50%
+                </div>
+                <div className="absolute top-2 left-3/4 -translate-x-1/2 text-[8px] text-gray-400">
+                  75%
+                </div>
+                <div className="absolute top-2 right-0 text-[8px] text-gray-400">
+                  100%
+                </div>
               </div>
             </div>
 
-            <div className="mt-2 grid grid-cols-2 gap-4">
+            <div className="mt-5.5 grid grid-cols-2 gap-4">
               <div>
                 <span className="block text-[10px] text-gray-500 uppercase">
                   Est. Trigger Errors
