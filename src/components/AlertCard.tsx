@@ -5,6 +5,7 @@ import {
   calculateTimeToExhaustion,
 } from '../utils/calculations';
 import type { ExtendedAlertResult } from '../hooks/useAlerts';
+import { useState, useEffect } from 'react';
 
 interface AlertCardProps {
   alert: AlertConfig;
@@ -20,6 +21,44 @@ const AlertCard = ({
   windowDays,
 }: AlertCardProps) => {
   const { shortWindow } = result;
+  const [budgetConsumedInput, setBudgetConsumedInput] = useState(
+    alert.budgetConsumed.toString()
+  );
+  const [longWindowValueInput, setLongWindowValueInput] = useState(
+    alert.longWindowValue.toString()
+  );
+
+  useEffect(() => {
+    // Sync local state with prop when prop changes (e.g. from reset or other external updates)
+    // Only update if the parsed value is different to avoid cursor jumping if we were to format it strictly
+    if (parseFloat(budgetConsumedInput) !== alert.budgetConsumed) {
+      setBudgetConsumedInput(alert.budgetConsumed.toString());
+    }
+    if (parseInt(longWindowValueInput) !== alert.longWindowValue) {
+      setLongWindowValueInput(alert.longWindowValue.toString());
+    }
+  }, [alert.budgetConsumed, alert.longWindowValue]);
+
+  const handleBudgetBlur = () => {
+    updateAlert(alert.id, 'budgetConsumed', budgetConsumedInput);
+  };
+
+  const handleBudgetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setBudgetConsumedInput(e.target.value);
+  };
+
+  const handleLongWindowValueBlur = () => {
+    updateAlert(alert.id, 'longWindowValue', longWindowValueInput);
+  };
+
+  const handleLongWindowValueChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    // Prevent non-numeric input for longWindowValue
+    if (/^[0-9]*$/.test(e.target.value) || e.target.value === '') {
+      setLongWindowValueInput(e.target.value);
+    }
+  };
 
   return (
     <div
@@ -62,10 +101,9 @@ const AlertCard = ({
                     type="text"
                     inputMode="numeric"
                     className="w-12 rounded-l-md border-gray-300 bg-indigo-50 text-sm"
-                    value={alert.longWindowValue}
-                    onChange={(e) =>
-                      updateAlert(alert.id, 'longWindowValue', e.target.value)
-                    }
+                    value={longWindowValueInput}
+                    onChange={handleLongWindowValueChange}
+                    onBlur={handleLongWindowValueBlur}
                   />
                   <select
                     className="rounded-r-md border-gray-300 text-sm"
@@ -106,12 +144,11 @@ const AlertCard = ({
               <input
                 type="text"
                 inputMode="numeric"
-                step="0.1"
+                step="0.01"
                 className="w-12 rounded-md border-gray-300 bg-indigo-50 text-sm"
-                value={alert.budgetConsumed}
-                onChange={(e) =>
-                  updateAlert(alert.id, 'budgetConsumed', e.target.value)
-                }
+                value={budgetConsumedInput}
+                onChange={handleBudgetChange}
+                onBlur={handleBudgetBlur}
               />
             </div>
           </div>
@@ -186,7 +223,7 @@ const AlertCard = ({
                   Error Rate Threshold
                 </span>
                 <span className="font-mono text-lg font-medium text-gray-800">
-                  {formatPercentage(result.threshold, 4)}
+                  {formatPercentage(result.threshold, 2)}
                 </span>
               </div>
             </div>

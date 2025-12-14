@@ -132,8 +132,13 @@ export const useAlerts = ({
       const isNumeric = /^[0-9]*\.?[0-9]*$/.test(value as string);
       if (!isNumeric) return;
 
-      const numValue = parseFloat(value as string);
-      if (numValue > 100) return;
+      let numValue = parseFloat(value as string);
+      if (isNaN(numValue)) numValue = 0; // Handle cases where parseFloat returns NaN
+
+      // Truncate to two decimal places
+      numValue = Math.floor(numValue * 100) / 100;
+
+      if (numValue > 100) numValue = 100;
 
       setAlerts((prev) =>
         prev.map((a) => (a.id === id ? { ...a, [field]: numValue } : a))
