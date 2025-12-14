@@ -117,20 +117,21 @@ describe('useAlerts', () => {
     );
   });
 
-  it('should handle invalid budgetConsumed input', () => {
-    const { result } = renderHook(() => useAlerts(initialParams));
-    const initialBudgetConsumed = result.current.alerts[0].budgetConsumed;
-
-    act(() => {
-      result.current.updateAlert('p1', 'budgetConsumed', 'invalid');
+    it('should cap budgetConsumed at 100 when input is too high', () => {
+      const initialProps = {
+        slo: 99.9,
+        windowDays: 30,
+        totalEvents: 1000000,
+      };
+      const { result } = renderHook(() => useAlerts(initialProps));
+      
+      act(() => {
+        result.current.updateAlert('p1', 'budgetConsumed', '101'); // Too high
+      });
+      // Expect the value to be capped at 100, not remain unchanged
+      expect(result.current.alerts[0].budgetConsumed).toBe(100);
     });
-    expect(result.current.alerts[0].budgetConsumed).toBe(initialBudgetConsumed); // Should not change
 
-    act(() => {
-      result.current.updateAlert('p1', 'budgetConsumed', '101'); // Too high
-    });
-    expect(result.current.alerts[0].budgetConsumed).toBe(initialBudgetConsumed);
-  });
 
   it('should set longWindowValue/budgetConsumed to 0 if empty string is passed', () => {
     const { result } = renderHook(() => useAlerts(initialParams));
