@@ -31,7 +31,11 @@ const SloCompositionChart = () => {
                 <Cell key={`cell-${index}`} fill={entry.color} stroke="none" />
               ))}
             </Pie>
-            <Tooltip formatter={(value: number) => `${value}%`} />
+            <Tooltip
+              formatter={(value: number | undefined) =>
+                value !== undefined ? `${value}%` : ''
+              }
+            />
             <Legend />
           </PieChart>
         </ResponsiveContainer>
