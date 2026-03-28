@@ -16,6 +16,10 @@ updates:
         versions: ['>=10']
       - dependency-name: '@eslint/js'
         versions: ['>=10']
+      # typescript-eslint@8.x does not support TypeScript v6 yet.
+      # Remove this ignore once typescript-eslint supports it.
+      - dependency-name: 'typescript'
+        versions: ['>=6']
     groups:
       all-dependencies:
         patterns:
