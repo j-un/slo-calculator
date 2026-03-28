@@ -32,7 +32,7 @@ const SloCompositionChart = () => {
               ))}
             </Pie>
             <Tooltip
-              formatter={(value: number | undefined) =>
+              formatter={(value) =>
                 value !== undefined ? `${value}%` : ''
               }
             />
