@@ -21,6 +21,16 @@ updates:
       - dependency-name: 'typescript'
         versions: ['>=6']
     groups:
+      # Keep vitest and @vitest/* (coverage-v8) on the same version line.
+      # A standalone vitest major leaves coverage-v8 behind and fails npm ci
+      # because both packages peer the other at an exact matching version.
+      vitest:
+        patterns:
+          - 'vitest'
+          - '@vitest/*'
       all-dependencies:
         patterns:
           - '*'
+        exclude-patterns:
+          - 'vitest'
+          - '@vitest/*'
