@@ -10,12 +10,6 @@ updates:
     schedule:
       interval: 'weekly'
     ignore:
-      # eslint-plugin-react-hooks@7.0.1 does not support eslint v10 yet.
-      # Remove this ignore once a stable version with eslint v10 support is released.
-      - dependency-name: 'eslint'
-        versions: ['>=10']
-      - dependency-name: '@eslint/js'
-        versions: ['>=10']
       # typescript-eslint@8.x does not support TypeScript v6 yet.
       # Remove this ignore once typescript-eslint supports it.
       - dependency-name: 'typescript'
